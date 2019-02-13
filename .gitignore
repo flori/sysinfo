@@ -1,0 +1,5 @@
+/cpuload
+coverage.out
+tags
+!gospace/src/github.com/flori/cpuload
+gospace
