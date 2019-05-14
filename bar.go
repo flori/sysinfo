@@ -12,7 +12,7 @@ type Bar struct {
 }
 
 func NewBar(options Options) *Bar {
-	bar := Bar{
+	bar := Bar {
 		LoadAvg:        loadAvg(options),
 		ProcessorCount: processorCount(options),
 	}
