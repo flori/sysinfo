@@ -4,17 +4,17 @@ GOPATH := $(shell pwd)/gospace
 
 .PHONY: build build-info
 
-all: cpuload
+all: fetch sysinfo
 
-cpuload: cmd/cpuload/main.go *.go
+sysinfo: cmd/sysinfo/main.go *.go
 	go build -o $@ $<
 
 fetch: fake-package
 
 fake-package:
-	rm -rf $(GOPATH)/src/github.com/flori/cpuload
+	rm -rf $(GOPATH)/src/github.com/flori/sysinfo
 	mkdir -p $(GOPATH)/src/github.com/flori
-	ln -s $(shell pwd) $(GOPATH)/src/github.com/flori/cpuload
+	ln -s $(shell pwd) $(GOPATH)/src/github.com/flori/sysinfo
 
 test:
 	@go test
@@ -26,7 +26,7 @@ coverage-display: coverage
 	@go tool cover -html=coverage.out
 
 clean:
-	@rm -f cpuload coverage.out tags
+	@rm -f sysinfo coverage.out tags
 
 clobber: clean
 	@rm -rf $(GOPATH)/*

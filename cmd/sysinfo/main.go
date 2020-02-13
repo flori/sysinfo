@@ -4,10 +4,10 @@ import (
 	"flag"
 	"fmt"
 
-	cpuload "github.com/flori/cpuload"
+	load "github.com/flori/sysinfo"
 )
 
-var options cpuload.Options
+var options load.Options
 
 func init() {
 	flag.Float64Var(
@@ -28,9 +28,21 @@ func init() {
 		-1,
 		"number of processor cores/threads",
 	)
+	flag.StringVar(
+		&options.Mode,
+		"mode",
+		"cpu",
+		"mode of operation cpu/battery, cpu is the default",
+	)
+	flag.IntVar(
+		&options.BatteryPercentage,
+		"battery-percentage",
+		-1,
+		"battery is filled to this percentage",
+	)
 	flag.Parse()
 }
 
 func main() {
-	fmt.Print(cpuload.NewBar(options))
+	fmt.Print(load.NewBar(options))
 }

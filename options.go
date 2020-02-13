@@ -1,7 +1,9 @@
-package cpuload
+package sysinfo
 
 type Options struct {
-	LoadAvg        float64
-	Horizontal     bool
-	ProcessorCount int
+	Mode              string
+	LoadAvg           float64
+	Horizontal        bool
+	ProcessorCount    int
+	BatteryPercentage int
 }

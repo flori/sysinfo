@@ -1,4 +1,4 @@
-package cpuload
+package sysinfo
 
 const (
 	horizontalRunes = " ▏▎▍▌▋▊▉"
@@ -6,16 +6,12 @@ const (
 )
 
 type Bar struct {
-	LoadAvg        float64
-	Runes          []rune
-	ProcessorCount float64
+	Options Options
+	Runes   []rune
 }
 
 func NewBar(options Options) *Bar {
-	bar := Bar {
-		LoadAvg:        loadAvg(options),
-		ProcessorCount: processorCount(options),
-	}
+	bar := Bar{Options: options}
 	if options.Horizontal {
 		bar.Runes = []rune(horizontalRunes)
 	} else {
@@ -24,14 +20,27 @@ func NewBar(options Options) *Bar {
 	return &bar
 }
 
-func (bar *Bar) String() string {
-	l := bar.LoadAvg
-	c := bar.ProcessorCount
-	fraction := l / c
-	if fraction > 1 {
-		fraction = 1.0
-	}
+func (bar *Bar) measure() int {
+	options := bar.Options
 	r := float64(len(bar.Runes))
-	i := int((r - 1) * fraction)
-	return string(bar.Runes[i])
+
+	switch options.Mode {
+	case "cpu":
+		l := loadAvg(options)
+		c := processorCount(options)
+		fraction := l / c
+		if fraction > 1 {
+			fraction = 1.0
+		}
+		return int((r - 1) * fraction)
+	case "battery":
+		fraction := batteryFull(options)
+		return int((r - 1) * fraction)
+	default:
+		panic("unknown mode")
+	}
+}
+
+func (bar *Bar) String() string {
+	return string(bar.Runes[bar.measure()])
 }

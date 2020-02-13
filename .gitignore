@@ -1,5 +1,5 @@
-/cpuload
+/sysinfo
 coverage.out
 tags
-!gospace/src/github.com/flori/cpuload
+!gospace/src/github.com/flori/sysinfo
 gospace

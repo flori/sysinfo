@@ -1,4 +1,4 @@
-package cpuload
+package sysinfo
 
 import (
 	"errors"
