@@ -1,3 +1,4 @@
+GLOBAL_GOPATH := $(HOME)/go/bin
 GOPATH := $(shell pwd)/gospace
 
 .EXPORT_ALL_VARIABLES:
@@ -33,3 +34,6 @@ clobber: clean
 
 tags: clean
 	@gotags -tag-relative=false -silent=true -R=true -f $@ . $(GOPATH)
+
+install: all
+	@cp -f sysinfo $(GLOBAL_GOPATH)/
