@@ -4,10 +4,10 @@ import (
 	"flag"
 	"fmt"
 
-	load "github.com/flori/sysinfo"
+	sysinfo "github.com/flori/sysinfo"
 )
 
-var options load.Options
+var options sysinfo.Options
 
 func init() {
 	flag.Float64Var(
@@ -40,9 +40,15 @@ func init() {
 		-1,
 		"battery is filled to this percentage",
 	)
+	flag.StringVar(
+		&options.Format,
+		"format",
+		"",
+		"format the output, e. g. \"CPU: %s \"",
+	)
 	flag.Parse()
 }
 
 func main() {
-	fmt.Print(load.NewBar(options))
+	fmt.Print(sysinfo.NewBar(options))
 }

@@ -1,5 +1,7 @@
 package sysinfo
 
+import "fmt"
+
 const (
 	horizontalRunes = " ▏▎▍▌▋▊▉"
 	verticalRunes   = " ▁▂▃▄▅▆▇█"
@@ -32,15 +34,30 @@ func (bar *Bar) measure() int {
 		if fraction > 1 {
 			fraction = 1.0
 		}
-		return int((r - 1) * fraction)
+		if fraction >= 0 {
+			return int((r - 1) * fraction)
+		}
+		break
 	case "battery":
 		fraction := batteryFull(options)
-		return int((r - 1) * fraction)
+		if fraction >= 0 {
+			return int((r - 1) * fraction)
+		}
+		break
 	default:
 		panic("unknown mode")
 	}
+	return -1
 }
 
 func (bar *Bar) String() string {
-	return string(bar.Runes[bar.measure()])
+	measurement := bar.measure()
+	if measurement < 0 {
+		return ""
+	}
+	format := "%s"
+	if bar.Options.Format != "" {
+		format = bar.Options.Format
+	}
+	return fmt.Sprintf(format, string(bar.Runes[measurement]))
 }

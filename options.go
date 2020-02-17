@@ -2,8 +2,9 @@ package sysinfo
 
 type Options struct {
 	Mode              string
-	LoadAvg           float64
+	Format            string
 	Horizontal        bool
 	ProcessorCount    int
+	LoadAvg           float64
 	BatteryPercentage int
 }

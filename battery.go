@@ -17,7 +17,9 @@ func batteryFull(options Options) float64 {
 			log.Fatal(err)
 		}
 		batteryValue := string(out)
-		if batteryValue != "" {
+		if batteryValue == "" {
+			return -1.0
+		} else {
 			f, err := strconv.ParseInt(batteryValue, 10, 32)
 			if err != nil {
 				log.Fatal(err)

@@ -26,7 +26,8 @@ the -battery-percentage argument).
 
 Boring? Use this in your tmux configuration:
 ```
-set -g status-right "… #[reverse] 🖥   #(sysinfo -mode cpu) 🔋 #(sysinfo -mode battery) "
+set -g status-right "… #[reverse]#(sysinfo -mode cpu -format ' 🖥  %%s')#(sysinfo -mode battery -format ' 🔋 %%s')"
+
 ```
 You can keep an eye on these important values now:
 
