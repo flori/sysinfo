@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"runtime"
 	"strconv"
 	"strings"
 )
@@ -12,15 +13,7 @@ import (
 func processorCount(options Options) float64 {
 	processorCount := options.ProcessorCount
 	if processorCount < 0 {
-		out, err := exec.Command("getconf", "_NPROCESSORS_ONLN").Output()
-		if err != nil {
-			log.Fatal(err)
-		}
-		i, err := strconv.ParseInt(strings.TrimSpace(string(out)), 10, 32)
-		if err != nil {
-			log.Fatal(err)
-		}
-		processorCount = int(i)
+		processorCount = runtime.NumCPU()
 	}
 	return float64(processorCount)
 }
