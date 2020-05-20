@@ -2,8 +2,8 @@
 
 ## Description
 
-This library display system information, so far cpu load average and
-battery level (as a percentage of fully charged) in a small form factor.
+This library display system information, so far current cpu load and battery
+level (as a percentage of fully charged) in a small form factor.
 
 ## Installation
 

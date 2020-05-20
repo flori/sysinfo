@@ -12,9 +12,9 @@ var options sysinfo.Options
 func init() {
 	flag.Float64Var(
 		&options.LoadAvg,
-		"load-avg",
+		"load",
 		-1.0,
-		"load average",
+		"load",
 	)
 	flag.BoolVar(
 		&options.Horizontal,

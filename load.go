@@ -1,7 +1,6 @@
 package sysinfo
 
 import (
-	"errors"
 	"log"
 	"os"
 	"os/exec"
@@ -21,24 +20,26 @@ func processorCount(options Options) float64 {
 func loadAvg(options Options) float64 {
 	loadAvg := options.LoadAvg
 	if loadAvg < 0 {
-		cmd := exec.Command("uptime")
+		cmd := exec.Command("ps", "-A", "-o", "%cpu=0.0")
 		cmd.Env = append(os.Environ(), "LANG=C")
 		out, err := cmd.Output()
 		if err != nil {
 			log.Fatal(err)
 		}
-		result := strings.Split(string(out), " ")
-		l := len(result)
-		if l > 3 {
-			loadValue := strings.Trim(result[l-3], ",")
-			f, err := strconv.ParseFloat(loadValue, 64)
+		result := strings.Split(string(out), "\n")
+		sum := 0.0
+		for _, load := range result {
+			load := strings.Trim(load, " ")
+			if load == "" {
+				continue
+			}
+			f, err := strconv.ParseFloat(load, 64)
 			if err != nil {
 				log.Fatal(err)
 			}
-			loadAvg = f
-		} else {
-			log.Fatal(errors.New("Invalid output of uptime"))
+			sum += f
 		}
+		loadAvg = sum / 100
 	}
 	return loadAvg
 }
