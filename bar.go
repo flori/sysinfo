@@ -28,7 +28,7 @@ func (bar *Bar) measure() int {
 
 	switch options.Mode {
 	case "cpu":
-		l := loadAvg(options)
+		l := cpuLoad(options)
 		c := processorCount(options)
 		fraction := l / c
 		if fraction > 1 {

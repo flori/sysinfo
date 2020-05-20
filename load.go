@@ -17,9 +17,9 @@ func processorCount(options Options) float64 {
 	return float64(processorCount)
 }
 
-func loadAvg(options Options) float64 {
-	loadAvg := options.LoadAvg
-	if loadAvg < 0 {
+func cpuLoad(options Options) float64 {
+	cpuLoad := options.LoadAvg
+	if cpuLoad < 0 {
 		cmd := exec.Command("ps", "-A", "-o", "%cpu=0.0")
 		cmd.Env = append(os.Environ(), "LANG=C")
 		out, err := cmd.Output()
@@ -39,7 +39,7 @@ func loadAvg(options Options) float64 {
 			}
 			sum += f
 		}
-		loadAvg = sum / 100
+		cpuLoad = sum / 100
 	}
-	return loadAvg
+	return cpuLoad
 }
