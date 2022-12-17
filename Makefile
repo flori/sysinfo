@@ -5,12 +5,13 @@ GOPATH := $(shell pwd)/gospace
 
 .PHONY: build build-info
 
-all: fetch sysinfo
+all: sysinfo
 
 sysinfo: cmd/sysinfo/main.go *.go
 	go build -o $@ $<
 
-fetch: fake-package
+setup: fake-package
+	go mod download
 
 fake-package:
 	rm -rf $(GOPATH)/src/github.com/flori/sysinfo
