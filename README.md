@@ -10,7 +10,7 @@ level (as a percentage of fully charged) in a small form factor.
 Use go to install the command:
 
 ```
-# go get -u github.com/flori/sysinfo/cmd/sysinfo
+# go install github.com/flori/sysinfo/cmd/sysinfo@latest
 ```
 
 ## Examples
