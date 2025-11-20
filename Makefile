@@ -5,6 +5,12 @@ GOPATH := $(shell pwd)/gospace
 
 .PHONY: build build-info
 
+check-%:
+	@if [ "${${*}}" = "" ]; then \
+		echo >&2 "Environment variable $* not set"; \
+		exit 1; \
+	fi
+
 all: sysinfo
 
 sysinfo: cmd/sysinfo/main.go *.go
@@ -32,6 +38,17 @@ clean:
 
 clobber: clean
 	@rm -rf $(GOPATH)/*
+
+validate-tag:
+	@if ! echo "${TAG}" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$$'; then \
+		echo >&2 "Error: TAG must be in the format 'v1.2.3'"; \
+		exit 1; \
+	fi # '
+
+release: check-TAG validate-tag
+	git push origin master
+	git tag "$(TAG)"
+	git push origin "$(TAG)"
 
 tags: clean
 	@gotags -tag-relative=false -silent=true -R=true -f $@ . $(GOPATH)
