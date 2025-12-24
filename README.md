@@ -2,16 +2,25 @@
 
 ## Description 📝
 
-This command-line utility displays system information in a compact, visual format. It currently supports displaying CPU load and battery level (as a percentage of fully charged) using Unicode bar characters. The tool is designed for use in terminal environments, particularly in tmux status lines, where compact visual feedback about system resources is valuable.
+This command-line utility displays system information in a compact, visual
+format. It currently supports displaying CPU load and battery level (as a
+percentage of fully charged) using Unicode bar characters. The tool is designed
+for use in terminal environments, particularly in tmux status lines, where
+compact visual feedback about system resources is valuable.
 
 ## Features ✨
 
-- **Compact Visual Representation**: Displays system metrics using Unicode bar characters (like ▋or ▅)
-- **Dual Display Modes**: Supports both horizontal and vertical bar orientations
+- **Compact Visual Representation**: Displays system metrics using Unicode bar
+  characters (like ▋or ▅)
+- **Dual Display Modes**: Supports both horizontal and vertical bar
+  orientations
 - **Multiple Metrics**: Can display CPU load or battery level
-- **Customizable Output**: Flexible formatting options for integration into terminal environments
-- **Cross-Platform**: CPU load support on all platforms, battery support on macOS
-- **Terminal Integration**: Optimized for use in tmux and other terminal multiplexers
+- **Customizable Output**: Flexible formatting options for integration into
+  terminal environments
+- **Cross-Platform**: CPU load support on all platforms, battery support on
+  macOS
+- **Terminal Integration**: Optimized for use in tmux and other terminal
+  multiplexers
 
 ## Architecture Overview 🏗️
 
@@ -46,7 +55,9 @@ graph LR
     C --> G[Character Selection]
 ```
 
-The system starts with command-line argument parsing, which creates an `Options` struct. This object is passed to the `Bar` renderer, which fetches the appropriate system metrics and displays them using Unicode characters.
+The system starts with command-line argument parsing, which creates an
+`Options` struct. This object is passed to the `Bar` renderer, which fetches
+the appropriate system metrics and displays them using Unicode characters.
 
 ### Loading Mechanism 📥
 
@@ -192,4 +203,6 @@ Florian Frank <mailto:flori@ping.de>
 
 Apache License, Version 2.0
 
-See the [LICENSE](cmd/sysinfo/LICENSE) file in the repository for full license text.
+See the [LICENSE](cmd/sysinfo/LICENSE) file in the repository for full license
+text.
+
