@@ -28,7 +28,10 @@ func (bar *Bar) measure() (int, error) {
 
 	switch options.Mode {
 	case "cpu":
-		l := cpuLoad(options)
+		l, err := cpuLoad(options)
+		if err != nil {
+			return -1, fmt.Errorf("invalid cpu load")
+		}
 		c := processorCount(options)
 		fraction := l / c
 		if fraction > 1 {

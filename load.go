@@ -1,7 +1,6 @@
 package sysinfo
 
 import (
-	"log"
 	"os"
 	"os/exec"
 	"runtime"
@@ -17,14 +16,14 @@ func processorCount(options Options) float64 {
 	return float64(processorCount)
 }
 
-func cpuLoad(options Options) float64 {
+func cpuLoad(options Options) (float64, error) {
 	cpuLoad := options.LoadAvg
 	if cpuLoad < 0 {
 		cmd := exec.Command("ps", "-A", "-o", "%cpu=0.0")
 		cmd.Env = append(os.Environ(), "LANG=C")
 		out, err := cmd.Output()
 		if err != nil {
-			log.Fatal(err)
+			return 0.0, err
 		}
 		result := strings.Split(string(out), "\n")
 		sum := 0.0
@@ -35,11 +34,11 @@ func cpuLoad(options Options) float64 {
 			}
 			f, err := strconv.ParseFloat(load, 64)
 			if err != nil {
-				log.Fatal(err)
+				return 0.0, err
 			}
 			sum += f
 		}
 		cpuLoad = sum / 100
 	}
-	return cpuLoad
+	return cpuLoad, nil
 }
