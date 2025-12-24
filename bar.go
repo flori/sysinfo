@@ -22,7 +22,7 @@ func NewBar(options Options) *Bar {
 	return &bar
 }
 
-func (bar *Bar) measure() int {
+func (bar *Bar) measure() (int, error) {
 	options := bar.Options
 	r := float64(len(bar.Runes))
 
@@ -35,24 +35,26 @@ func (bar *Bar) measure() int {
 			fraction = 1.0
 		}
 		if fraction >= 0 {
-			return int((r - 1) * fraction)
+			return int((r - 1) * fraction), nil
 		}
-		break
+		return -1, fmt.Errorf("invalid CPU load fraction")
 	case "battery":
-		fraction := batteryFull(options)
-		if fraction >= 0 {
-			return int((r - 1) * fraction)
+		fraction, err := batteryFull(options)
+		if err != nil {
+			return -1, err
 		}
-		break
+		if fraction >= 0 {
+			return int((r - 1) * fraction), nil
+		}
+		return -1, fmt.Errorf("invalid battery fraction")
 	default:
-		panic("unknown mode")
+		return -1, fmt.Errorf("unknown mode: %s", options.Mode)
 	}
-	return -1
 }
 
 func (bar *Bar) String() string {
-	measurement := bar.measure()
-	if measurement < 0 {
+	measurement, err := bar.measure()
+	if err != nil || measurement < 0 {
 		return ""
 	}
 	format := "%s"
